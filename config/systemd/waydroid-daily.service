@@ -1,0 +1,14 @@
+[Unit]
+Description=HUST sports daily run (Waydroid)
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=%h/.Xauthority
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+Environment=WAYLAND_DISPLAY=wayland-0
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+WorkingDirectory=%h/tiyu
+ExecStart=%h/tiyu/daily_run.sh
+TimeoutStartSec=2400

@@ -1,0 +1,11 @@
+{
+  "code": 200,
+  "data": {
+    "checkStatus": "0",
+    "inValidReason": "",
+    "isValid": "1",
+    "tip": "提交成功，待审核",
+    "checkResult": ""
+  },
+  "message": "OK"
+}

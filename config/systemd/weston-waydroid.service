@@ -1,0 +1,17 @@
+[Unit]
+Description=Weston X11 + Waydroid visible UI
+After=graphical-session.target
+
+[Service]
+Type=simple
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=%h/.Xauthority
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+Environment=WAYLAND_DISPLAY=wayland-0
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=%h/tiyu/start_weston_ui.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

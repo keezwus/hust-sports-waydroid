@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily 10:00 HUST sports run
+
+[Timer]
+OnCalendar=*-*-* 10:00:00
+Persistent=true
+Unit=waydroid-daily.service
+
+[Install]
+WantedBy=timers.target

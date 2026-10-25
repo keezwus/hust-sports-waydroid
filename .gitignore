@@ -1,0 +1,28 @@
+# build artifacts
+*.apk
+*.idsig
+*.dex
+_build_*/
+apktool-out/
+apktool-clean/
+apktool-phone/
+decoded-real/
+decompiled-java/
+
+# captures / secrets / personal data
+*.bin
+*.tgz
+*.env
+notify.env
+config.env
+.env
+mitm/
+*.jks
+*.keystore
+
+# runtime
+logs/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
