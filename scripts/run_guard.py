@@ -18,9 +18,13 @@ def log(*a):
 
 def sh(args, timeout=40):
     try:
-        return subprocess.run(ADB + args, capture_output=True, text=True, timeout=timeout).stdout
+        r = subprocess.run(ADB + args, capture_output=True, text=True, timeout=timeout)
     except subprocess.TimeoutExpired:
+        log("adb timeout:", args)
         return ""
+    if r.returncode != 0 or not (r.stdout or "").strip():
+        log("adb rc=%d err=%s args=%s" % (r.returncode, (r.stderr or "").strip()[:200], args))
+    return r.stdout or ""
 
 
 def shell(cmd, timeout=40):
@@ -30,6 +34,8 @@ def shell(cmd, timeout=40):
 def els():
     shell("uiautomator dump /sdcard/ui.xml", 40)
     xml = shell("cat /sdcard/ui.xml", 40)
+    if len(xml) < 80:
+        log("uiautomator dump failed len=%d" % len(xml))
     out = []
     for m in NODE.finditer(xml):
         s = m.group(0)
@@ -68,10 +74,13 @@ def tap(c, label):
 
 
 def top():
-    for l in shell("dumpsys activity activities").splitlines():
-        if "topResumedActivity" in l:
-            m = re.search(r"u0 (\S+)\}", l)
-            return m.group(1).split("/")[-1] if m else "?"
+    for _ in range(3):
+        for l in shell("dumpsys activity activities").splitlines():
+            if "topResumedActivity" in l:
+                m = re.search(r"u0 (\S+)\}", l)
+                return m.group(1).split("/")[-1] if m else "?"
+        time.sleep(1.5)
+    log("top failed; adb devices:", shell("devices").replace("\n", " "))
     return "?"
 
 
